@@ -1,0 +1,23 @@
+# ninja log v7
+0	11380	1757785744278629530	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/ball_query.o	516e4426f0aae3
+1	12167	1757785744279629557	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/ball_query_gpu.o	b175b8cad9f5c74
+11382	23612	1757785755659936949	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/bindings.o	2d643e27ab3ea39b
+12167	23632	1757785756444958119	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/cylinder_query.o	bd7f7f7bdd4ac61d
+23632	35095	1757785767910266803	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/group_points.o	779ed33a6891814
+23612	36118	1757785767890266265	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/cylinder_query_gpu.o	8df689a6242cfdc9
+35095	47344	1757785779373574510	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/group_points_gpu.o	52e5459a600bff16
+36118	47591	1757785780396601927	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/interpolate.o	8810cf40da9b56e9
+47592	59070	1757785791869908921	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/sampling.o	e7c73f0e3fc8377b
+47344	59658	1757785791621902294	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/interpolate_gpu.o	344eee073041d207
+59071	71585	1757785803349215193	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/sampling_gpu.o	9f84a7258fdc6b73
+13	11908	1757843030277044498	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/ball_query.o	fb279ec4445d4d12
+14	13434	1757843030278044518	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/ball_query_gpu.o	3d6db426e2ed1fcb
+11909	23921	1757843042173280143	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/bindings.o	b17807aed8f99c80
+13434	25329	1757843043698310356	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/cylinder_query.o	a162b7bb577015b1
+25329	37213	1757843055593546066	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/group_points.o	86909bfa888ddee3
+23921	37315	1757843054185518161	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/cylinder_query_gpu.o	57f7ef8580a887ac
+37315	49323	1757843067579783652	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/interpolate.o	309a9e7b422711ea
+37213	50687	1757843067477781630	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/group_points_gpu.o	891f2883e280f998
+50687	62563	1757843080951048778	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/sampling.o	efa2205dd12b61b3
+49325	62760	1757843079589021768	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/interpolate_gpu.o	c20cc6a601b6167f
+62564	76314	1757843092829142416	/home/jizexian/github/anygrasp_sdk/pointnet2/build/temp.linux-x86_64-cpython-39/pointnet2/_ext_src/src/sampling_gpu.o	8c2bd7173103b0a4

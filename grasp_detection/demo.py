@@ -22,12 +22,14 @@ def demo(data_dir):
     anygrasp.load_net()
 
     # get data
-    colors = np.array(Image.open(os.path.join(data_dir, 'color.png')), dtype=np.float32) / 255.0
-    depths = np.array(Image.open(os.path.join(data_dir, 'depth.png')))
+    # colors = np.array(Image.open(os.path.join(data_dir, 'rpg', '0018.png')), dtype=np.float32) / 255.0
+    # depths = np.array(Image.open(os.path.join(data_dir, 'depth', '0018.png')))
+    colors = np.array(Image.open(os.path.join(data_dir, 'color_1.png')), dtype=np.float32) / 255.0
+    depths = np.array(Image.open(os.path.join(data_dir, 'depth_1.png')))
     # get camera intrinsics
-    fx, fy = 927.17, 927.37
-    cx, cy = 651.32, 349.62
-    scale = 1000.0
+    fx, fy = 388.16845703125, 388.16845703125  # Example values, use your camera's
+    cx, cy = 325.3074645996094, 234.87106323242188  # Example values, use your camera's
+    depth_scale = 0.0010000000474974513
     # set workspace to filter output grasps
     xmin, xmax = -0.19, 0.12
     ymin, ymax = 0.02, 0.15
@@ -37,7 +39,7 @@ def demo(data_dir):
     # get point cloud
     xmap, ymap = np.arange(depths.shape[1]), np.arange(depths.shape[0])
     xmap, ymap = np.meshgrid(xmap, ymap)
-    points_z = depths / scale
+    points_z = depths * depth_scale
     points_x = (xmap - cx) / fx * points_z
     points_y = (ymap - cy) / fy * points_z
 
@@ -54,6 +56,31 @@ def demo(data_dir):
         print('No Grasp detected after collision detection!')
 
     gg = gg.nms().sort_by_score()
+
+    if len(gg) > 0:
+        # Get the single best grasp
+        best_grasp = gg[0]
+
+        # Extract and print its details
+        print("\n--- Details of the Best Grasp ---")
+        
+        # 1. Grasp Score
+        score = best_grasp.score
+        print(f"Score: {score:.4f}")
+
+        # 2. Gripper Width
+        width_m = best_grasp.width
+        print(f"Gripper Width: {width_m*1000:.2f} mm")
+
+        # 3. Grasp Pose: Position (Translation)
+        position = best_grasp.translation
+        print(f"Position (x, y, z): {position}")
+
+        # 4. Grasp Pose: Orientation (Rotation Matrix)
+        orientation = best_grasp.rotation_matrix
+        print(f"Orientation (Rotation Matrix):\n{orientation}")
+        print("------------------------------------")
+
     gg_pick = gg[0:20]
     print(gg_pick.scores)
     print('grasp score:', gg_pick[0].score)
@@ -71,4 +98,5 @@ def demo(data_dir):
 
 if __name__ == '__main__':
     
-    demo('./example_data/')
+    # demo('./example_data/') 
+    demo('./realsense_capture/')
