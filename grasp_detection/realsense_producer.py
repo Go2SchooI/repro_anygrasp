@@ -55,8 +55,8 @@ while True:
     frames = pipeline.wait_for_frames()
     aligned_frames = align.process(frames)
     
-    # depth_sensor = profile.get_device().first_depth_sensor()
-    # depth_scale = depth_sensor.get_depth_scale()
+    depth_sensor = profile.get_device().first_depth_sensor()
+    depth_scale = depth_sensor.get_depth_scale()
 
     # # Get intrinsics from the aligned stream profile
     # intrinsics = profile.get_stream(rs.stream.depth).as_video_stream_profile().get_intrinsics()

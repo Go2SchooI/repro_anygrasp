@@ -24,8 +24,8 @@ def demo(data_dir):
     # get data
     # colors = np.array(Image.open(os.path.join(data_dir, 'rpg', '0018.png')), dtype=np.float32) / 255.0
     # depths = np.array(Image.open(os.path.join(data_dir, 'depth', '0018.png')))
-    colors = np.array(Image.open(os.path.join(data_dir, 'color_1.png')), dtype=np.float32) / 255.0
-    depths = np.array(Image.open(os.path.join(data_dir, 'depth_1.png')))
+    colors = np.array(Image.open(os.path.join(data_dir, 'color_20250916_203538.png')), dtype=np.float32) / 255.0
+    depths = np.array(Image.open(os.path.join(data_dir, 'depth_20250916_203538.png')))
     # get camera intrinsics
     fx, fy = 388.16845703125, 388.16845703125  # Example values, use your camera's
     cx, cy = 325.3074645996094, 234.87106323242188  # Example values, use your camera's

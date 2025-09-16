@@ -52,7 +52,7 @@ lims = [-0.3, 0.3, -0.3, 0.3, 0.15, 0.75] # Workspace [xmin, xmax, ymin, ymax, z
 # --- 4. Visualization Setup ---
 vis = o3d.visualization.Visualizer()
 vis.create_window("AnyGrasp Consumer")
-axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[0, 0, 0])
+axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.05, origin=[0, 0, 0])
 first_frame = True
 
 def cleanup():
@@ -106,7 +106,7 @@ while True:
         print("------------------------------------")
 
         gg = gg.nms().sort_by_score()
-        gg_pick = gg[0:5]
+        gg_pick = gg[0:20]
         grippers = gg_pick.to_open3d_geometry_list() 
         for gripper in grippers:
             vis.add_geometry(gripper)

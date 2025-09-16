@@ -1,5 +1,6 @@
 # save_realsense_images.py
 import pyrealsense2 as rs
+import datetime
 import numpy as np
 import cv2
 import os
@@ -48,8 +49,9 @@ try:
     color_image = np.asanyarray(color_frame.get_data())
 
     # --- Save Images ---
-    color_filepath = os.path.join(OUTPUT_DIR, 'color.png')
-    depth_filepath = os.path.join(OUTPUT_DIR, 'depth.png')
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    color_filepath = os.path.join(OUTPUT_DIR, f'color_{timestamp}.png')
+    depth_filepath = os.path.join(OUTPUT_DIR, f'depth_{timestamp}.png')
     
     # Save BGR color image using OpenCV
     cv2.imwrite(color_filepath, color_image)
