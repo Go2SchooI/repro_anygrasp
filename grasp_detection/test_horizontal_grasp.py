@@ -22,8 +22,8 @@ def demo(data_dir):
     anygrasp.load_net()
 
     # get data
-    # colors = np.array(Image.open(os.path.join(data_dir, 'rpg', '0018.png')), dtype=np.float32) / 255.0
-    # depths = np.array(Image.open(os.path.join(data_dir, 'depth', '0018.png')))
+    # colors = np.array(Image.open(os.path.join(data_dir, 'color', 'color_0001.png')), dtype=np.float32) / 255.0
+    # depths = np.array(Image.open(os.path.join(data_dir, 'depth', 'depth_0001.png')))
     colors = np.array(Image.open(os.path.join(data_dir, 'color_1.png')), dtype=np.float32) / 255.0
     depths = np.array(Image.open(os.path.join(data_dir, 'depth_1.png')))
     # get camera intrinsics
@@ -55,7 +55,39 @@ def demo(data_dir):
     if len(gg) == 0:
         print('No Grasp detected after collision detection!')
 
-    gg = gg.nms().sort_by_score()
+    print(f"Initially detected {len(gg)} grasps.")
+    
+    # 在相机坐标系中，通常Y轴是垂直方向[0, -1, 0]
+    vertical_vector = np.array([0, -1, 0]) 
+    
+    # 新的GraspGroup存储筛选后的水平抓取
+    horizontal_grasps = GraspGroup()
+    
+    for grasp in gg:
+        # 抓取的接近方向是其旋转矩阵的第三列
+        approach_vector = grasp.rotation_matrix[:, 2]
+
+        # 如果接近方向与地面平行，那么它应该与垂直方向成90度角，点积接近0
+        dot_product = np.abs(np.dot(approach_vector, vertical_vector))
+        
+        if dot_product < 0.26:
+            horizontal_grasps.add(grasp)
+            
+    print(f"Found {len(horizontal_grasps)} grasps parallel to the ground.")
+    
+    # --- 使用筛选后的抓取进行后续处理 ---
+    if len(horizontal_grasps) == 0:
+        print('No horizontal grasps detected after filtering!')
+        # 使用原始的gg
+        gg_to_use = gg 
+    else:
+        gg_to_use = horizontal_grasps
+
+    gg = gg_to_use.nms().sort_by_score()
+    
+    if len(gg) == 0:
+        print('No Grasp detected after NMS and sorting!')
+        return
 
     if len(gg) > 0:
         # Get the single best grasp
@@ -81,7 +113,7 @@ def demo(data_dir):
         print(f"Orientation (Rotation Matrix):\n{orientation}")
         print("------------------------------------")
 
-    gg_pick = gg[0:20]
+    gg_pick = gg[0:10]
     print(gg_pick.scores)
     print('grasp score:', gg_pick[0].score)
 
@@ -89,7 +121,7 @@ def demo(data_dir):
     if cfgs.debug:
         trans_mat = np.array([[1,0,0,0],[0,1,0,0],[0,0,-1,0],[0,0,0,1]])
         cloud.transform(trans_mat)
-        grippers = gg.to_open3d_geometry_list()
+        grippers = gg_pick.to_open3d_geometry_list()
         for gripper in grippers:
             gripper.transform(trans_mat)
         o3d.visualization.draw_geometries([*grippers, cloud])

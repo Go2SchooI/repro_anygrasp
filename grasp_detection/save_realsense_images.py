@@ -9,7 +9,7 @@ import os
 OUTPUT_DIR = 'realsense_capture'
 RESOLUTION_WIDTH = 640
 RESOLUTION_HEIGHT = 480
-FRAME_RATE = 30
+FRAME_RATE = 15
 
 # --- Create output directory if it doesn't exist ---
 if not os.path.exists(OUTPUT_DIR):
