@@ -29,23 +29,31 @@ def run_realtime_grasping(cfgs):
     anygrasp.load_net()
 
     # 2. 配置并启动RealSense管道
+    imu_pipeline = rs.pipeline()
+    imu_config = rs.config()
+    imu_config.enable_stream(rs.stream.accel, rs.format.motion_xyz32f, 100)  # acceleration
+    # imu_config.enable_stream(rs.stream.gyro, rs.format.motion_xyz32f, 200)  # gyroscope
+    imu_profile = imu_pipeline.start(imu_config)
+    # eat some frames to allow imu to settle
+    for i in range(0, 5):
+        imu_pipeline.wait_for_frames()
+
     pipe = rs.pipeline()
     config = rs.config()
     # 启用深度、彩色和加速度数据流
     config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 15)
     config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 15)
-    config.enable_stream(rs.stream.accel) # 启用加速度流
     
     profile = pipe.start(config)
     
     # 获取相机内参
+    print("Getting camera intrinsics...")
     intr = profile.get_stream(rs.stream.depth).as_video_stream_profile().get_intrinsics()
     fx, fy, cx, cy = intr.fx, intr.fy, intr.ppx, intr.ppy
     
     # 获取深度传感器的缩放因子
     depth_sensor = profile.get_device().first_depth_sensor()
     scale = depth_sensor.get_depth_scale()
-
     # 定义工作空间
     lims = [-0.5, 0.5, -0.5, 0.5, 0.1, 1.0] # 示例工作区
 
@@ -53,10 +61,15 @@ def run_realtime_grasping(cfgs):
     vertical_vector = np.array([0, -1, 0]) # 默认值，会被IMU数据覆盖
 
     vis = o3d.visualization.Visualizer()
-    vis.create_window("AnyGrasp Consumer")
-    axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.05, origin=[0, 0, 0])
-    first_frame = True
+    # vis.create_window("AnyGrasp Consumer")
+    # axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.05, origin=[0, 0, 0])
+    # first_frame = True
 
+    for i in range(0, 5):
+        pipe.wait_for_frames()
+
+    time.sleep(2)   # let camera warm up
+    
     try:
         while True:
             frames = pipe.wait_for_frames(10000)
