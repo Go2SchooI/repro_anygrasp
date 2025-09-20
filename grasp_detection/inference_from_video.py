@@ -135,4 +135,4 @@ def run_inference(data_dir):
     vis.destroy_window()
 
 if __name__ == '__main__':
-    run_inference('./realsense_capture/video')
+    run_inference('./realsense_capture/video_3')

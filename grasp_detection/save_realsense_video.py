@@ -6,7 +6,7 @@ import os
 import time
 
 # --- Configuration ---
-OUTPUT_DIR = 'realsense_capture/video'
+OUTPUT_DIR = 'realsense_capture/video_3'
 FRAME_RATE = 15
 DURATION_SECONDS = 3
 RESOLUTION_WIDTH = 640

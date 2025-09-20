@@ -22,10 +22,10 @@ def demo(data_dir):
     anygrasp.load_net()
 
     # get data
-    # colors = np.array(Image.open(os.path.join(data_dir, 'color', 'color_0001.png')), dtype=np.float32) / 255.0
-    # depths = np.array(Image.open(os.path.join(data_dir, 'depth', 'depth_0001.png')))
-    colors = np.array(Image.open(os.path.join(data_dir, 'color_1.png')), dtype=np.float32) / 255.0
-    depths = np.array(Image.open(os.path.join(data_dir, 'depth_1.png')))
+    # colors = np.array(Image.open(os.path.join(data_dir, 'color', 'color_0034.png')), dtype=np.float32) / 255.0
+    # depths = np.array(Image.open(os.path.join(data_dir, 'depth', 'depth_0034.png')))
+    colors = np.array(Image.open(os.path.join(data_dir, 'color_20250920_180446.png')), dtype=np.float32) / 255.0
+    depths = np.array(Image.open(os.path.join(data_dir, 'depth_20250920_180446.png')))
     # get camera intrinsics
     fx, fy = 388.16845703125, 388.16845703125  # Example values, use your camera's
     cx, cy = 325.3074645996094, 234.87106323242188  # Example values, use your camera's
@@ -58,7 +58,7 @@ def demo(data_dir):
     print(f"Initially detected {len(gg)} grasps.")
     
     # 在相机坐标系中，通常Y轴是垂直方向[0, -1, 0]
-    vertical_vector = np.array([0, -1, 0]) 
+    vertical_vector = np.array([1, 0, 0]) 
     
     # 新的GraspGroup存储筛选后的水平抓取
     horizontal_grasps = GraspGroup()
@@ -119,7 +119,7 @@ def demo(data_dir):
 
     # visualization
     if cfgs.debug:
-        trans_mat = np.array([[1,0,0,0],[0,1,0,0],[0,0,-1,0],[0,0,0,1]])
+        trans_mat = np.array([[-1,0,0,0],[0,1,0,0],[0,0,-1,0],[0,0,0,1]])
         cloud.transform(trans_mat)
         grippers = gg_pick.to_open3d_geometry_list()
         for gripper in grippers:
@@ -131,4 +131,4 @@ def demo(data_dir):
 if __name__ == '__main__':
     
     # demo('./example_data/') 
-    demo('./realsense_capture/')
+    demo('./realsense_capture')
