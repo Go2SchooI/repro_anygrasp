@@ -85,10 +85,33 @@ def main():
         t = g.translation.tolist()
         # 从 g.rotation_matrix 或 g.quaternion 获取四元数（graspnetAPI 通常有方法）
         # 假设它有 `quaternion` 属性
-        q = g.quaternion if hasattr(g, 'quaternion') else [0, 0, 0, 1]
+        def rot_to_quat_wxyz(R):
+            m00,m01,m02 = R[0,0],R[0,1],R[0,2]
+            m10,m11,m12 = R[1,0],R[1,1],R[1,2]
+            m20,m21,m22 = R[2,0],R[2,1],R[2,2]
+            tr = m00+m11+m22
+            if tr > 0:
+                S = np.sqrt(tr+1.0)*2.0
+                w = 0.25*S; x = (m21 - m12)/S; y = (m02 - m20)/S; z = (m10 - m01)/S
+            elif (m00 > m11) and (m00 > m22):
+                S = np.sqrt(1.0 + m00 - m11 - m22)*2.0
+                w = (m21 - m12)/S; x = 0.25*S; y = (m01 + m10)/S; z = (m02 + m20)/S
+            elif m11 > m22:
+                S = np.sqrt(1.0 + m11 - m00 - m22)*2.0
+                w = (m02 - m20)/S; x = (m01 + m10)/S; y = 0.25*S; z = (m12 + m21)/S
+            else:
+                S = np.sqrt(1.0 + m22 - m00 - m11)*2.0
+                w = (m10 - m01)/S; x = (m02 + m20)/S; y = (m12 + m21)/S; z = 0.25*S
+            q = np.array([w,x,y,z], dtype=np.float32)
+            q /= max(1e-12, np.linalg.norm(q))
+            return q
+
+        R = np.asarray(g.rotation_matrix, dtype=np.float32)
+        q = rot_to_quat_wxyz(R)  # ← 仍然写回同一个字段名 'quaternion'
+
         grasps.append({
             'translation': t,
-            'quaternion': q,
+            'quaternion': q.tolist(),  # ← 还是 'quaternion'，但顺序是 wxyz
             'score': float(g.score),
             'width': float(g.width)
         })
@@ -102,7 +125,7 @@ def main():
 
     write_output(args.data_dir, out, debug_img)
 
-def draw_grasp_on_image(colors, pts, gg, fx, fy, cx, cy, depth_scale, top_k=6, line_px=2,
+def draw_grasp_on_image(colors, pts, gg, fx, fy, cx, cy, depth_scale, top_k=1, line_px=2,
                         finger_len_m=0.04,  # 指爪在图上显示的“长度”（米，沿 binormal）
                         center_mark_px=4):
     """
