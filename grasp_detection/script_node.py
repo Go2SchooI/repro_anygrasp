@@ -152,11 +152,6 @@ def compute(db):
         if USE_TFIX:
             # USD camera(+Y up, -Z fwd) -> ROS optical(Z fwd, X right, Y down)
             # 如需修正，则相当于绕 X 轴 180 度：diag(1, -1, -1)
-            R_isaac_to_cam = np.array([
-                [0, -1,  0],   # X_isaac
-                [0,  0, -1],   # Y_isaac
-                [1,  0,  0],  # Z_isaac
-            ], dtype=float)
             T_fix[1,1] = -1.0
             T_fix[2,2] = -1.0
 
